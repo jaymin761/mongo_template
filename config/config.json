@@ -1,0 +1,29 @@
+{
+  "development": {
+   
+    "database":{
+      "url":"url",
+      "options":{
+        "useNewUrlParser": true
+      }
+    }
+  },
+  "test": {
+   
+    "database":{
+      "url":"",
+      "options":{
+        "useNewUrlParser": true
+      }
+    }
+  },
+  "production": {
+   
+    "database":{
+      "url":"",
+      "options":{
+        "useNewUrlParser": true
+      }
+    }
+  }
+}
