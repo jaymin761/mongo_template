@@ -37,6 +37,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use('/api/admin/', require('./routes/admin'));
+
+
 server.listen(port, function () {
     console.log("Server is running on Port: " + port);
 });
