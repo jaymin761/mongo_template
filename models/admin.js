@@ -1,25 +1,21 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class admin extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
+const mongoose = require('mongoose');
+
+
+const dataSchema = new mongoose.Schema({
+  name: {
+    type: String
+  },
+  email: {
+    type: String
+  },
+  password: {
+    type: String
   }
-  admin.init({
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'admin',
-  });
-  return admin;
-};
+}, {
+  timestamps: true,
+  toObject: { getters: true },
+  toJSON: { getters: true },
+}
+);
+
+module.exports = mongoose.model('admins', dataSchema);

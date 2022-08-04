@@ -17,7 +17,7 @@ const encryptedDataResponse = (async (data) => {
 const EncryptedData = (async (req, res, data) => {
 
     if (req.headers.env) {
-        if (req.headers.env == 'touring') {
+        if (req.headers.env == 'test') {
             return data;
         } else {
             return await encryptedDataResponse(data);

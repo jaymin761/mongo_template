@@ -2,7 +2,7 @@
   "development": {
    
     "database":{
-      "url":"url",
+      "url":"mongodb://127.0.0.1:27017/mongo-demo",
       "options":{
         "useNewUrlParser": true
       }
@@ -11,7 +11,7 @@
   "test": {
    
     "database":{
-      "url":"",
+      "url":"mongodb://127.0.0.1:27017/mongo-demo",
       "options":{
         "useNewUrlParser": true
       }
@@ -20,7 +20,7 @@
   "production": {
    
     "database":{
-      "url":"",
+      "url":"mongodb://127.0.0.1:27017/mongo-demo",
       "options":{
         "useNewUrlParser": true
       }

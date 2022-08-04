@@ -1,4 +1,18 @@
+var mongoose = require('mongoose');
+var bcrypt = require('bcrypt');
+const md5 = require('md5');
+const log4js = require("log4js");
+const logger = log4js.getLogger();
+const DeviceToken = require('../../models/deviceToken');
+const jwt = require('jsonwebtoken');
 
+
+const {
+    sendSuccess,
+    sendError
+} = require("./baseController");
+
+const Admin = require('../../models/admin');
 function adminTokenFunction() {
     let tokenData = md5(Math.floor(Math.random() * 9000000000) + 1000000000) + md5(new Date(new Date().toUTCString()));
     let token = jwt.sign({
@@ -13,13 +27,12 @@ function adminTokenFunction() {
     return dataResponse;
 }
 const login = (async (req, res) => {
-    const session = await Admin.startSession();
+    const session = await mongoose.startSession();
     try {
         session.startTransaction();
         const {
             email,
             password,
-            fcm_device_token
         } = req.body;
         const passwordSend = password;
         let resUnauthorized;
@@ -39,20 +52,25 @@ const login = (async (req, res) => {
                     deviceTokenData.type = 1,
                     deviceTokenData.token = tokenData,
                     deviceTokenData.device_token = token,
-                    deviceTokenData.fcm_device_token = fcm_device_token,
                     await deviceTokenData.save();
                     
 
-                    let adminResultResponse = await Admin.findOne({ email: email });
+                    var adminResultResponse = await Admin.findOne({ email: email }).select('-password');
 
-                  
                     adminResultResponse['access_token'] = token;
-                    const dataPass = {
-                        'data': data,
+
+                    var data={
+                        _id:adminResultResponse._id,
+                        email:adminResultResponse.email,
+                        access_token:token,
+                        name:adminResultResponse.name,
+                        createdAt:adminResultResponse.createdAt,
+                        updatedAt:adminResultResponse.updatedAt,
                     }
+
                     const responseData = {
                         'message': "Congratulations you are login",
-                        'data': dataPass,
+                        'data': data,
                     };
                     await session.commitTransaction();
                     session.endSession();
