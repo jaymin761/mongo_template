@@ -9,7 +9,22 @@ const cors = require("cors");
 const path = require("path");
 const app = express();
 const server = http.createServer(app);
+const log4js = require("log4js");
 
+log4js.configure({
+    appenders: {
+        everything: {
+            type: 'dateFile',
+            filename: './logger/all-the-logs.log',
+            maxLogSize: 10485760,
+            backups: 3,
+            compress: true
+        }
+    },
+    categories: {
+        default: { appenders: ['everything'], level: 'debug' }
+    }
+});
 
 express.application.prefix = express.Router.prefix = function (path, configure) {
     var router = express.Router();

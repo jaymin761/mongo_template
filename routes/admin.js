@@ -13,6 +13,7 @@ router.post('/login', AdminValidationLogin.login, AdminController.login);
 
 router.prefix('/', (route) => {
     route.use(AdminAuthMiddleware);
+    route.post('/test', AdminController.test);
 });
 
 module.exports = router;

@@ -10,7 +10,13 @@ const dataSchema = new mongoose.Schema({
   },
   password: {
     type: String
-  }
+  },
+  password: {
+    type: String
+  },
+  token: {
+    type: String
+  },
 }, {
   timestamps: true,
   toObject: { getters: true },

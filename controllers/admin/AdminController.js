@@ -27,6 +27,7 @@ function adminTokenFunction() {
     return dataResponse;
 }
 const login = (async (req, res) => {
+
     const session = await mongoose.startSession();
     try {
         session.startTransaction();
@@ -47,25 +48,17 @@ const login = (async (req, res) => {
                     var tokenData = dataTokenFunction.tokenData;
                     var token = dataTokenFunction.token;
 
-                    let deviceTokenData = new DeviceToken({});
-                    deviceTokenData.admin_id = adminResult._id,
-                    deviceTokenData.type = 1,
-                    deviceTokenData.token = tokenData,
-                    deviceTokenData.device_token = token,
-                    await deviceTokenData.save();
-                    
+                    var adminResultResponse = await Admin.findOne({ email: email });
+                    adminResultResponse.token = tokenData;
+                    await adminResultResponse.save()
 
-                    var adminResultResponse = await Admin.findOne({ email: email }).select('-password');
-
-                    adminResultResponse['access_token'] = token;
-
-                    var data={
-                        _id:adminResultResponse._id,
-                        email:adminResultResponse.email,
-                        access_token:token,
-                        name:adminResultResponse.name,
-                        createdAt:adminResultResponse.createdAt,
-                        updatedAt:adminResultResponse.updatedAt,
+                    var data = {
+                        _id: adminResultResponse._id,
+                        email: adminResultResponse.email,
+                        token: token,
+                        name: adminResultResponse.name,
+                        createdAt: adminResultResponse.createdAt,
+                        updatedAt: adminResultResponse.updatedAt,
                     }
 
                     const responseData = {
@@ -99,7 +92,15 @@ const login = (async (req, res) => {
         return sendError(req, res, message);
     }
 });
+const test = (async (req, res) => {
+    return sendSuccess(req, res, {
+        'message': 'test success',
+        'data': {}
+    });
+
+})
 
 module.exports = {
     login,
+    test
 }
